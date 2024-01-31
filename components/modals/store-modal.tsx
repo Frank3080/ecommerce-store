@@ -15,6 +15,7 @@ import {
 } from "../ui/form";
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
+import { useState } from "react";
 
 const formSchema = z.object({
   name: z
@@ -25,6 +26,8 @@ const formSchema = z.object({
 });
 
 export const StoreModal = () => {
+  const [loading, setLoading] = useState(false);
+
   const storeModal = useStoreModal();
   /* infers the typescript type of the form schema and indicates the generic type parameter for the useForm hook */
   const form = useForm<z.infer<typeof formSchema>>({
@@ -57,17 +60,27 @@ export const StoreModal = () => {
                   <FormItem>
                     <FormLabel>Name</FormLabel>
                     <FormControl>
-                      <Input placeholder="New store..." {...field} />
+                      <Input
+                        disabled={loading}
+                        placeholder="New store..."
+                        {...field}
+                      />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
                 )}
               />
               <div className="space-x-2 pt-6 flex items-center justify-end w-full">
-                <Button variant="outline" onClick={storeModal.onClose}>
+                <Button
+                  disabled={loading}
+                  variant="outline"
+                  onClick={storeModal.onClose}
+                >
                   Cancel
                 </Button>
-                <Button type="submit">Continue</Button>
+                <Button disabled={loading} type="submit">
+                  Continue
+                </Button>
               </div>
             </form>
           </Form>

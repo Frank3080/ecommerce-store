@@ -10,6 +10,6 @@ declare global {
 // This is a common pattern to ensure that there is a single instance of PrismaClient throughout the application.
 const prismadb = globalThis.prisma || new PrismaClient();
 
-if (process.env.NODE_ENV !== "production") {
-  globalThis.prisma = prismadb;
-}
+if (process.env.NODE_ENV !== "production") globalThis.prisma = prismadb;
+
+export default prismadb;
