@@ -16,6 +16,8 @@ import {
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
 import { useState } from "react";
+import axios from "axios";
+import toast from "react-hot-toast";
 
 const formSchema = z.object({
   name: z
@@ -38,8 +40,16 @@ export const StoreModal = () => {
   });
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
-    console.log(values);
-    //asdjlajskldljk
+    try {
+      setLoading(true);
+      const response = await axios.post("/api/stores", values);
+
+      window.location.assign(`/${response.data.id}`); // does a complete refresh on the page, meaning that the created store will be completely loaded in the db
+    } catch (error) {
+      toast.error("Something went wrong, try again!");
+    } finally {
+      setLoading(false); // Code block to execute regardless of the try result
+    }
   };
 
   return (
